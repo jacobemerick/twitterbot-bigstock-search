@@ -35,9 +35,7 @@ while (!$stream->feof()) {
             include_once __DIR__ . '/vendor/jacobemerick/bigstock-api-services/src/service/SearchService.php';
             $bigstock_request = new BigstockAPI\Service\SearchService('API_ACCOUNT');
             $bigstock_request->addTerm($query);
-            $bigstock_request->setLimit(1);
             $response = $bigstock_request->fetchJSON();
-
 
             $response_client = new Client('https://api.twitter.com/1.1');
             
@@ -51,12 +49,13 @@ while (!$stream->feof()) {
             $response_client->addSubscriber($oauth);
 
             if ($response->response_code = 200 && $response->message == 'success') {
+                $image_id = rand(0, ($response->data->paging->items - 1));
                 $return_message = '';
                 $return_message .= ".@{$message['user']['screen_name']} ";
-                $return_message .= substr($response->data->images[0]->title, 0, 50);
-                $return_message .= " http://www.bigstockphoto.com/image-{$response->data->images[0]->id}/";
+                $return_message .= substr($response->data->images[$image_id]->title, 0, 50);
+                $return_message .= " http://www.bigstockphoto.com/image-{$response->data->images[$image_id]->id}/";
 
-                $remote_image = $response->data->images[0]->small_thumb->url;
+                $remote_image = $response->data->images[$image_id]->small_thumb->url;
                 $return_image = tempnam('/tmp', 'twitter-upload');
                 copy($remote_image, $return_image);
 
