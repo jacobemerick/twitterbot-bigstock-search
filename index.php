@@ -66,7 +66,7 @@ while (!$stream->feof()) {
             } else {
                 $return_message = '';
                 $return_message .= ".@{$message['user']['screen_name']} ";
-                $return_message .= 'sorry, did not find an image that fit your request. Please try again :(';
+                $return_message .= "sorry, I did not find an image for your search ({$query}). Please try again :(";
                 $return_image = '';
 
                 $response_tweet = $response_client->post('statuses/update.json', array(), array(
