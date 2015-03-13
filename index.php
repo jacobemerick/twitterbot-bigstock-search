@@ -4,11 +4,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$handle = @fopen('config.json', 'r');
+$config_file = __DIR__ . '/config.json';
+$handle = @fopen($config_file, 'r');
 if ($handle == false) {
     exit('No configuration found.');
 }
-$config = fread($handle, filesize('config.json'));
+$config = fread($handle, filesize($config_file));
 $config = @json_decode($config, true);
 if (json_last_error() !== JSON_ERROR_NONE) {
     exit('Could not parse configuration file.');
