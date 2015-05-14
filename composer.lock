@@ -1,0 +1,212 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "97404c59a0d078cc05be81c5af9cd252",
+    "packages": [
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "4063f08ca434efac12bf7a3db0d370b1c451345b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/4063f08ca434efac12bf7a3db0d370b1c451345b",
+                "reference": "4063f08ca434efac12bf7a3db0d370b1c451345b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/streams": "1.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "4.*",
+                "psr/log": "~1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2014-03-29 23:11:36"
+        },
+        {
+            "name": "guzzlehttp/oauth-subscriber",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/oauth-subscriber.git",
+                "reference": "1f905aa833a0fbe28036c39d4b4b7d24a3114aa3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/oauth-subscriber/zipball/1f905aa833a0fbe28036c39d4b4b7d24a3114aa3",
+                "reference": "1f905aa833a0fbe28036c39d4b4b7d24a3114aa3",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~4.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Subscriber\\Oauth\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle OAuth 1.0 subscriber",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "oauth"
+            ],
+            "time": "2014-03-30 22:26:28"
+        },
+        {
+            "name": "guzzlehttp/streams",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/streams.git",
+                "reference": "d249beffe5fa5e0da3855974bcc2dd9082069ccf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/d249beffe5fa5e0da3855974bcc2dd9082069ccf",
+                "reference": "d249beffe5fa5e0da3855974bcc2dd9082069ccf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Stream\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple abstraction over streams of data (Guzzle 4+)",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "stream"
+            ],
+            "time": "2014-03-25 18:31:28"
+        },
+        {
+            "name": "jacobemerick/bigstock-oauth-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacobemerick/bigstock-oauth-client.git",
+                "reference": "3127324a8d2e1297c10d831aa8efaf60685590b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacobemerick/bigstock-oauth-client/zipball/3127324a8d2e1297c10d831aa8efaf60685590b6",
+                "reference": "3127324a8d2e1297c10d831aa8efaf60685590b6",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bigstock\\OAuth2API\\": "src/"
+                }
+            },
+            "description": "PHP Client for Bigstock OAuth2 API",
+            "support": {
+                "source": "https://github.com/jacobemerick/bigstock-oauth-client/tree/master",
+                "issues": "https://github.com/jacobemerick/bigstock-oauth-client/issues"
+            },
+            "time": "2014-04-02 00:57:22"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "jacobemerick/bigstock-oauth-client": 20
+    },
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}

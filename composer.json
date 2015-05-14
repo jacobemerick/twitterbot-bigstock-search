@@ -3,18 +3,11 @@
     "description": "Twitter bot to fetch Bigstock Images on request",
     "require": {
         "guzzlehttp/guzzle": "~4.0",
-        "jacobemerick/bigstock-api-services": "0.1.*"
+        "guzzlehttp/oauth-subscriber": "0.1.*",
+        "jacobemerick/bigstock-oauth-client": "dev-master"
     },
     "repositories": [{
-        "type": "package",
-        "package": {
-            "name": "jacobemerick/bigstock-api-services",
-            "version": "0.1.0",
-            "source": {
-                "url": "https://github.com/jacobemerick/bigstock-api-services.git",
-                "type": "git",
-                "reference": "9b8ee49d2c"
-            }
-        }
+        "type": "vcs",
+        "url": "https://github.com/jacobemerick/bigstock-oauth-client.git"
     }]
 }

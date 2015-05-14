@@ -2,29 +2,33 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Guzzle\Http\Client;
-use Guzzle\Plugin\Oauth\OauthPlugin;
-use Guzzle\Stream\PhpStreamRequestFactory;
+use GuzzleHttp\Client;
+use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use GuzzleHttp\Stream;
+use GuzzleHttp\Adapter\Curl\CurlAdapter;
+use GuzzleHttp\Message\MessageFactory;
+use GuzzleHttp\Post\PostFile;
+use Bigstock\OAuth2API\Client as BigstockClient;
 
-$client = new Client('https://userstream.twitter.com/1.1');
+$client = new Client(['base_url' => 'https://userstream.twitter.com/1.1/']);
 
-$oauth = new OauthPlugin(array(
-    'consumer_key'     => 'KEY',
-    'consumer_secret'  => 'SECRET',
-    'token'            => 'TOKEN',
-    'token_secret'     => 'TOKEN_SECRET',
-));
+$oauth = new Oauth1([
+    'consumer_key'     => 'qZcHgaYs38jT3rzcraIA',
+    'consumer_secret'  => 'WQYHOhntZ8X0UVuWnUFQrobUQc00JiXIQm6ZKNIZK8',
+    'token'            => '2365888927-jzxye6WgMaGYHc1ep7BxusAzaiqpD6gi65Mee0x',
+    'token_secret'     => 'uJxEvsunnbxrxXWi0qBXcTt2aQKyEcHZ3BYuNlnMXZLiE',
+]);
 
-$client->addSubscriber($oauth);
+$client->getEmitter()->attach($oauth);
+$request = $client->get('user.json', ['auth' => 'oauth', 'stream' => true]);
+$stream = $request->getBody();
 
-$request = $client->get('user.json');
+$bigstock = new BigstockClient();
+$bigstock->setClientCredentials(572402, '3a0099c7858a6d63174678743801e75e93e6e8cd');
 
-$factory = new PhpStreamRequestFactory();
-$stream = $factory->fromRequest($request);
 $line = '';
-
-while (!$stream->feof()) {
-    $line .= $stream->readLine(512);
+while (!$stream->eof()) {
+    $line .= $stream->read(1);
     while (strstr($line, "\r\n") !== false) {
         list($message, $line) = explode("\r\n", $line, 2);
         $message = json_decode($message, true);
@@ -32,25 +36,20 @@ while (!$stream->feof()) {
             $query = $message['text'];
             $query = substr($message['text'], 15);
 
-            include_once __DIR__ . '/vendor/jacobemerick/bigstock-api-services/src/service/SearchService.php';
-            $bigstock_request = new BigstockAPI\Service\SearchService('API_ACCOUNT');
-            $bigstock_request->addTerm($query);
-            $bigstock_request->setLimit(1);
-            $response = $bigstock_request->fetchJSON();
+            $response = $bigstock->request('search', array('q' => $query));
 
-
-            $response_client = new Client('https://api.twitter.com/1.1');
+            $response_client = new Client(['base_url' => 'https://api.twitter.com/1.1/', 'adapter' => new CurlAdapter(new MessageFactory())]);
             
-            $oauth = new OauthPlugin(array(
-                'consumer_key'     => 'KEY',
-                'consumer_secret'  => 'SECRET',
-                'token'            => 'TOKEN',
-                'token_secret'     => 'TOKEN_SECRET',
-            ));
+            $oauth = new Oauth1([
+                'consumer_key'     => 'qZcHgaYs38jT3rzcraIA',
+                'consumer_secret'  => 'WQYHOhntZ8X0UVuWnUFQrobUQc00JiXIQm6ZKNIZK8',
+                'token'            => '2365888927-jzxye6WgMaGYHc1ep7BxusAzaiqpD6gi65Mee0x',
+                'token_secret'     => 'uJxEvsunnbxrxXWi0qBXcTt2aQKyEcHZ3BYuNlnMXZLiE',
+            ]);
 
-            $response_client->addSubscriber($oauth);
+            $response_client->getEmitter()->attach($oauth);
 
-            if ($response->response_code = 200 && $response->message == 'success') {
+            if (false && $response->response_code = 200 && $response->message == 'success') {
                 $return_message = '';
                 $return_message .= ".@{$message['user']['screen_name']} ";
                 $return_message .= substr($response->data->images[0]->title, 0, 50);
@@ -60,22 +59,26 @@ while (!$stream->feof()) {
                 $return_image = tempnam('/tmp', 'twitter-upload');
                 copy($remote_image, $return_image);
 
-                $response_tweet = $response_client->post('statuses/update_with_media.json', array(), array(
-                    'status' => $return_message,
-                    'in_reply_to_status_id' => $message['id_str'],
-                ))->addPostFile('media', $return_image);
+                $response_tweet = $response_client->post('statuses/update_with_media.json', [
+                    'body' => [
+                        'status'                 => $return_message,
+                        'in_reply_to_status_id'  => $message['id_str'],
+                    ]
+                ])->addPostFile('media', fopen($return_image, 'r'));
             } else {
                 $return_message = '';
                 $return_message .= ".@{$message['user']['screen_name']} ";
                 $return_message .= 'sorry, did not find an image that fit your request. Please try again :(';
                 $return_image = '';
 
-                $response_tweet = $response_client->post('statuses/update.json', array(), array(
-                    'status' => $return_message,
-                    'in_reply_to_status_id' => $message['id_str'],
-                ));
+                $response_tweet = $response_client->post('statuses/update.json', [
+                    'body' => [
+                        'status'                 => $return_message,
+                        'in_reply_to_status_id'  => $message['id_str'],
+                    ],
+                ]);
             }
-            $response_tweet->send();
+            //$response_client->send($response_tweet);
         }
     }
 }
